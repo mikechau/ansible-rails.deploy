@@ -7,7 +7,9 @@
 - include: phase_setup.yml
 
 - include: phase_build.yml
+  when: rails_app_strategy != 'rollback'
 
 - include: phase_release.yml
+  when: rails_app_strategy != 'rollback'
 
 - include: phase_deploy.yml

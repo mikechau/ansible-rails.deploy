@@ -11,7 +11,7 @@
     state=directory
     path="{{ item.dir }}"
   with_items: rails_app_sub_dirs
-  when: not item.src
+  when: not item.src and rails_app_strategy != 'rollback'
 
 - name: create symlinks
   file: >

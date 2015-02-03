@@ -10,7 +10,6 @@ Currently it assumes you want:
 
 ## TODO
 
-- Add rollback handling.
 - Add configs and binstubs.
 - Add tests.
 
