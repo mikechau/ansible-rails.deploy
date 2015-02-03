@@ -1,0 +1,8 @@
+---
+- name: check if application is up
+  uri: >
+    url="http://{{ application_host }}:{{ rails_app_port }}"
+  register: application_response
+  until: application_response == 200
+  delay: 10
+  retries: 15

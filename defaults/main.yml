@@ -1,0 +1,215 @@
+---
+################################################################
+##### Role Configurable Settings (Required)
+################################################################
+
+# Name of the Application. Will be used for things like the parent folder and
+# accessing haproxy backends.
+# String, ex: hyperion
+rails_app_name:
+
+# The id to identify the application running on the host. To help
+# differentiate the different application processes running on the machine.
+# String, ex: my-app-1
+rails_app_id:
+
+# User the application is running as.
+# String, ex: vagrant
+rails_app_user:
+
+# The application http check relative url. No need for beginning /.
+# Already appended.
+# String, ex: ok.html
+rails_app_http_check_path:
+
+# The application port, it is listening on.
+# Integer, ex: 9001
+rails_app_port:
+
+# The deploy strategy:
+#   - setup
+#   - deploy
+#   - rollback
+# String, ex: setup
+rails_app_strategy:
+
+# The application platform:
+#   - aws
+#   - local
+#   - vagrant
+rails_app_platform:
+
+# Enable full production install.
+# Boolean, ex: true
+rails_app_production_ready:
+
+# Purge everything during a setup.
+# Boolean, ex: false
+rails_app_purge_all:
+
+# Is this role a first run?
+# To prevent repeating tasks on the same host.
+# Boolean, ex: false
+rails_app_first_run:
+
+# Git repo url/ssh path.
+# Where to clone the application from.
+# String, ex: https://github.com/mikechau/haproxy-passenger-standalone-rolling-upgrades.git
+rails_app_git_repo:
+
+# Git branch to pull from, defaults to master
+# String, ex: master
+rails_app_git_branch: master
+
+# Specify git module depth.
+# Integer, ex: 1
+rails_app_git_depth: 1
+
+# Enable this to rollback a deploy, specify the release #.
+# String, ex: 1
+rails_app_rollback_release:
+
+################################################################
+##### Role Configurable Settings (Defaults)
+################################################################
+
+# Is the application running with RVM?
+# Boolean, ex: true
+rails_app_rvm: true
+
+# Enable role haproxy features.
+# Boolean, ex: true
+rails_app_haproxy: true
+
+# Application environment variables.
+# RAILS_ENV should at least be defined. Default is production.
+# This roles exports the environment variables to ~/.bash_profile and runs it when running commands that call 'bash -lc'.
+# Map
+rails_app_environment:
+  RAILS_ENV: production
+
+# Base application path, the parent folder.
+# String, ex: /home/vagrant/my-app
+rails_app_base_path: "/home/{{ rails_app_user }}/{{ rails_app_name }}"
+
+# The rails_app_name/current/rails_app_id path.
+# String, ex: /home/vagrant/my-app/current/my-app-instance-1
+rails_app_current_path: "{{ rails_app_base_path }}/current/{{ rails_app_id }}"
+
+# The rails_app_name/build path.
+# String, ex: /home/vagrant/my-app/build
+rails_app_build_path: "{{ rails_app_base_path }}/build"
+
+# Alias for rails_app_build_path, override this if you aren't using a build path.
+# String, ex: /home/vagrant/my-app (Rails parent folder)
+rails_app_path: "{{ rails_app_build_path }}"
+
+# The rails_app_name/releases path.
+# String, ex: /home/vagrant/my-app/releases
+rails_app_releases_path: "{{ rails_app_base_path }}/releases"
+
+# The rails_app_name/current/rails_app_id/tmp path.
+# String, ex: /home/vagrant/my-app/current/my-app-instance-1/tmp
+rails_app_current_tmp_path: "{{ rails_app_current_path }}/tmp"
+
+# The application run path, stores the pids and sockets folders.
+rails_app_run_path: "/var/run/{{ rails_app_name }}"
+
+# Directory where the server pids should reside.
+# String, ex: /var/run/my-app/pids
+rails_app_pids_path: "{{ rails_app_run_path }}/pids"
+rails_app_sockets_path: "{{ rails_app_run_path }}/sockets"
+
+# Reference to the absolute path of the application pid file.
+# String, ex: /var/run/my-app/pids/my-app-instance-1.pid
+rails_app_pid_file: "{{ rails_app_pids_path }}/{{ rails_app_id }}.pid"
+
+rails_app_socket_file: "{{ rails_app_sockets_path }}/{{ rails_app_id }}.sock"
+
+# List of passenger instances, there should only be one item.
+# Override this with multiple items during the setup phase to stop all passenger instances.
+# List/Map
+rails_app_passenger_instances:
+  - id: "{{ rails_app_id }}"
+    port: "{{ rails_app_port }}"
+
+# List of application sub directories under the rails_app_base_path.
+# List, ex: /home/vagrant/app/build
+# List/Map
+rails_app_sub_dirs:
+  - dir: build
+
+  - dir: current
+
+  - dir: live
+
+  - dir: log
+
+  - dir: releases
+
+  - dir: shared
+
+  - dir: "log/{{ rails_app_id }}"
+
+  - dir: pids
+    src: "{{ rails_app_pids_path }}"
+
+  - dir: sockets
+    src: "{{ rails_app_sockets_path }}"
+
+# A list of directories in the run path.
+# List, ex: /var/run/app
+rails_app_run_dirs:
+  - path: "{{ rails_app_run_path }}"
+  - path: "{{ rails_app_pids_path }}"
+  - path: "{{ rails_app_sockets_path }}"
+
+# A list of files to remove from the build folder.
+# List, ex: README.md
+rails_app_cleanup_files_list:
+  - ansible
+  - .rubocop.yml
+  - .rspec
+  - README.md
+  - Vagrantfile
+  - vagrant
+  - requirements.yml
+  - Procfile
+  - Guardfile
+  - log
+
+# A list of application configs to generate.
+# List, ex: application.yml, database.yml
+# Destination path is relative to rails_app_path.
+# List, ex: config/database.yml
+rails_app_configs:
+  - config/application.yml
+  - config/database.yml
+
+# Comma delimited string of files to exclude when copied to release, after the build is complete.
+# String, ex: .git, .ruby-version
+rails_app_release_exclusions: .git
+
+# List of generated binstubs.
+# List
+rails_app_binstubs:
+  - bin/app
+
+################################################################
+##### Passenger Configurable Settings
+################################################################
+
+# Passenger nginx version, --nginx-version
+rails_app_passenger_nginx_version: 1.7.9
+
+# Passenger min instances, --min-instances
+rails_app_passenger_min_instances: 10
+
+# Passenger max pool, --max-pool
+rails_app_passenger_max_pool: 10
+
+# Passenger custom nginx config, --ngninx-config-template
+rails_app_passenger_nginx_config: "{{ rails_app_current_path }}/config/passenger/nginx.conf.erb"
+
+# Passenger start flags, passed into passenger start
+application_passenger_start_flags: "-p {{ rails_app_port }} --daemonize --nginx-version {{ rails_app_passenger_nginx_version }} --min-instances {{ rails_app_passenger_min_instances }} --max-pool-size {{ rails_app_passenger_max_pool }} --no-friendly-error-pages --nginx-config-template {{ rails_app_passenger_nginx_config }} --pid-file {{ application_pid }} --load-shell-envvars --temp-dir {{ rails_app_current_tmp_path }}"

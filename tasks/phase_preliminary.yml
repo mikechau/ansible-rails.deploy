@@ -1,0 +1,15 @@
+# Required VARS:
+#   - rails_app_strategy
+#   - rails_app_haproxy
+#
+---
+- include: _haproxy_detach.yml
+  when: rails_app_strategy != 'setup' and rails_app_haproxy
+
+- include: _rvm_passenger_stop.yml
+
+- include: _port_stop_listening.yml
+  when: rails_app_strategy != 'setup'
+
+- include: _purge.yml
+  when: rails_app_strategy == 'setup'

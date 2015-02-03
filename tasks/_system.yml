@@ -1,0 +1,18 @@
+# Required VARS
+#   - rails_app_environment
+#       RAILS_ENV
+#   - rails_app_run_dirs
+---
+- name: add RAILS_ENV to bash profile
+  lineinfile: >
+    dest=~/.bash_profile
+    regexp="export RAILS_ENV={{ rails_app_environment['RAILS_ENV'] }}"
+    line="export rails_app_environment['RAILS_ENV']"
+    state=present
+
+- name: create run directories
+  file: >
+    state=directory
+    path="{{ item.path }}"
+  with_items: rails_app_run_dirs
+  sudo: yes

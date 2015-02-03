@@ -1,0 +1,13 @@
+---
+- include: fact_check.yml
+  when: rails_app_haproxy
+
+- include: phase_preliminary.yml
+
+- include: phase_setup.yml
+
+- include: phase_build.yml
+
+- include: phase_release.yml
+
+- include: phase_deploy.yml

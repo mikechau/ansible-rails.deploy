@@ -1,0 +1,22 @@
+# Required VARS:
+#   - rails_app_git_repo
+#   - rails_app_path
+#   - rails_app_git_branch
+#
+# Optional:
+#   - rails_app_git_depth
+---
+- name: checkout git repo
+  git: >
+    repo="{{ rails_app_git_repo }}"
+    dest="{{ rails_app_path }}"
+    version="{{ rails_app_git_branch }}"
+    accept_hostkey=yes
+    force=yes
+    depth="{{ rails_app_git_depth | default(omit) }}"
+
+- name: clean up build directory
+  file: >
+    state=absent
+    path="{{ rails_app_path }}/{{ item }}"
+  with_items: rails_app_cleanup_files_list

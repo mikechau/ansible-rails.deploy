@@ -1,0 +1,12 @@
+# Required VARS:
+#   - rails_app_path
+#   - rails_app_strategy
+#   - rails_app_environment
+#
+---
+- name: precompile assets
+  shell: bash -lc 'bundle exec rake assets:precompile'
+  args:
+    chdir: "{{ rails_app_path }}"
+  environment: rails_app_environment
+  when: rails_app_strategy == 'deploy'

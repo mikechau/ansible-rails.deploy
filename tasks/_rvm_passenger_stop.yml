@@ -1,0 +1,28 @@
+# Required VARS:
+#   - rails_app_current_path - absolute path
+#   - rails_app_pid_file - absolute path
+#   - rails_app_passenger_instances - list of passenger instances
+#       - attributes: id, port
+#
+---
+- name: check if passenger is running
+  stat: >
+    path="{{ rails_app_pids_path }}/{{ item.id }}.pid"
+  with_items: rails_app_passenger_instances
+  register: is_passenger_running
+
+- name: stop passenger processes (w/ rvm)
+  command: "bash -ls 'bundle exec passenger stop -p {{ item.port }} --pid-file {{ rails_app_pids_path }}/{{ item.id }}.pid'"
+  args:
+    chdir: "{{ rails_app_current_path }}"
+  with_items: rails_app_passenger_instances
+  when: is_passenger_running.stat.exists
+
+- name: wait for passenger instances to stop...
+  wait_for: >
+    state=absent
+    path="{{ rails_app_pids_path }}/{{ item.id }}.pid"
+    delay=5
+    timeout=300
+  with_items: rails_app_passenger_instances
+  when: is_passenger_running.stat.exists

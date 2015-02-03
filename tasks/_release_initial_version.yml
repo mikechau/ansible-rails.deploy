@@ -1,0 +1,4 @@
+---
+- name: set initial release
+  set_fact:
+    last_release: 0
