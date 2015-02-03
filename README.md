@@ -2,7 +2,7 @@
 
 This is a role for deploying `Ruby on Rails` applications, for rolling upgrades via `Haproxy` and `Phusion Passenger`.
 
-Currently it assumes you want:
+Currently it assumes you are using:
 
 - Haproxy
 - Phusion Passenger Standalone
