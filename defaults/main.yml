@@ -22,6 +22,10 @@ rails_app_user:
 # String, ex: ok.html
 rails_app_http_check_path:
 
+# The application host.
+# IP, ex: 127.0.0.1
+rails_app_host:
+
 # The application port, it is listening on.
 # Integer, ex: 9001
 rails_app_port:

@@ -1,5 +1,5 @@
 ---
-- include: fact_check.yml
+- include: _fact_check.yml
   when: rails_app_haproxy
 
 - include: phase_preliminary.yml
