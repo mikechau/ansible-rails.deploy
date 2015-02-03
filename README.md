@@ -10,6 +10,8 @@ Currently it assumes you are using:
 
 ## TODO
 
+- Database Backups
+- Worker Handling
 - Add configs and binstubs.
 - Add tests.
 
