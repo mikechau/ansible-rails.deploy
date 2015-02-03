@@ -10,6 +10,7 @@
 ---
 - name: detach application from loadbalancer
   command: "service haproxyctl disable server {{ rails_app_name }}/{{ rails_app_id }}"
+  sudo: yes
   when: haproxyctl_is_installed
 
 - name: wait for detach to finish...
