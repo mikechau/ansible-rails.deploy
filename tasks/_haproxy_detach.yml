@@ -14,12 +14,13 @@
   when: haproxyctl_is_installed
 
 - name: wait for detach to finish...
-  shell: "service haproxy show health | awk '/{{ rails_app_name }}/ && /{{ rails_app_id }}/'"
+  shell: "service haproxyctl show health | awk '/{{ rails_app_name }}/ && /{{ rails_app_id }}/'"
   register: haproxy_detach_status
   sudo: yes
   until: haproxy_detach_status.stdout | search('MAINT')
   delay: 10
   retries: 25
+  when: haproxyctl_is_installed
 
 - name: enable maintenance mode
   file: >

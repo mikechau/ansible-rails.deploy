@@ -11,3 +11,4 @@
   until: haproxy_status.stdout | search('UP')
   delay: 10
   retries: 25
+  when: haproxyctl_is_installed
