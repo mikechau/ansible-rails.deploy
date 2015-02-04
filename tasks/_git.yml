@@ -2,6 +2,7 @@
 #   - rails_app_git_repo
 #   - rails_app_path
 #   - rails_app_git_branch
+#   - rails_app_cleanup_files_list
 #
 # Optional:
 #   - rails_app_git_depth

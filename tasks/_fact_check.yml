@@ -1,3 +1,6 @@
+# Required VARS:
+#   - rails_app_first_run
+#
 ---
 - name: check if haproxyctl is installed
   stat: >

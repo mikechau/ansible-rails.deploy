@@ -1,6 +1,7 @@
 # Required VARS:
 #   - rails_app_path
 #   - rails_app_environment
+#       RAILS_ENV
 #
 ---
 - name: bundle install (all)

@@ -1,3 +1,7 @@
+# Required VARS:
+#   - rails_app_host
+#   - rails_app_port
+#
 ---
 - name: check if application is up
   uri: >

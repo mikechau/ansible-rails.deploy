@@ -1,10 +1,11 @@
 # Required VARS:
 #   - rails_app_current_path - absolute path
-#   - rails_app_pid_file - absolute path
-#   - rails_app_sll_instances - list of passenger instances
+#   - rails_app_all_instances - list of passenger instances
 #       - attributes: id, port
 #   - rails_app_first_run
 #   - rails_app_strategy
+#   - rails_app_id
+#
 ---
 - name: check if passenger is running
   stat: >

@@ -1,3 +1,12 @@
+# Required VARS:
+#   - rails_app_current_path
+#   - rails_app_http_check_path
+#   - rails_app_name
+#   - rails_app_id
+#
+# Required FACTS:
+#   - haproxyctl_is_installed
+#
 ---
 - name: allow traffic to application
   file: >

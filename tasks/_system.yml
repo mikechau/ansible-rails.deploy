@@ -2,6 +2,8 @@
 #   - rails_app_environment
 #       RAILS_ENV
 #   - rails_app_run_dirs
+#   - rails_app_user
+#
 ---
 - name: add RAILS_ENV to bash profile
   lineinfile: >

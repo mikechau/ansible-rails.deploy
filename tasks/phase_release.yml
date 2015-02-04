@@ -9,6 +9,9 @@
 #   - last_release
 #   - new_release_path
 #
+# Optional VARS:
+#   - rails_app_rollback_release
+#
 ---
 - include: _release_initial_version.yml
   when: rails_app_strategy == 'setup' and rails_app_first_run
