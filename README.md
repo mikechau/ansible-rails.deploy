@@ -4,6 +4,7 @@ This is a role for deploying `Ruby on Rails` applications, for rolling upgrades 
 
 Currently it assumes you are using:
 
+- CentOS
 - Haproxy
 - Phusion Passenger Standalone
 - RVM
@@ -13,6 +14,7 @@ Currently it assumes you are using:
 - Database Backups
 - Worker Handling
 - Add configs and binstubs.
+- Ubuntu compatibility.
 - Add tests.
 
 ## LICENSE
