@@ -14,9 +14,9 @@
     path="{{ rails_app_current_path }}"
 
 - name: copy release to current application
-  command: "cp -r {{ new_release_path }} {{ application_current_path }}"
+  command: "cp -r {{ new_release_path }} {{ rails_app_current_path }}"
   args:
-    chdir: "{{ application_base_path }}"
+    chdir: "{{ rails_app_base_path }}"
 
 - name: symlink shared logs
   file: >

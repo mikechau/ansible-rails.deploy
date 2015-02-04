@@ -6,12 +6,12 @@
 #   - rails_app_port
 #
 # Required FACTS:
-#   - haproxy_is_installed
+#   - haproxyctl_is_installed
 ---
 - name: detach application from loadbalancer
   command: "service haproxyctl disable server {{ rails_app_name }}/{{ rails_app_id }}"
   sudo: yes
-  when: haproxyctl_is_installed
+  when: haproxyctl_is_installed is defined and haproxyctl_is_installed
 
 - name: wait for detach to finish...
   shell: "service haproxyctl show health | awk '/{{ rails_app_name }}/ && /{{ rails_app_id }}/'"
@@ -20,7 +20,7 @@
   until: haproxy_detach_status.stdout | search('MAINT')
   delay: 10
   retries: 25
-  when: haproxyctl_is_installed
+  when: haproxyctl_is_installed is defined and haproxyctl_is_installed
 
 - name: enable maintenance mode
   file: >

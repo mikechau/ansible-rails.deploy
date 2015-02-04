@@ -3,6 +3,6 @@
   uri: >
     url="http://{{ rails_app_host }}:{{ rails_app_port }}"
   register: application_response
-  until: application_response == 200
+  until: application_response.status == 200
   delay: 10
   retries: 15

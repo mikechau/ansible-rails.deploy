@@ -7,12 +7,14 @@
   lineinfile: >
     dest=~/.bash_profile
     regexp="export RAILS_ENV={{ rails_app_environment['RAILS_ENV'] }}"
-    line="export rails_app_environment['RAILS_ENV']"
+    line="export RAILS_ENV={{ rails_app_environment['RAILS_ENV'] }}"
     state=present
 
 - name: create run directories
   file: >
     state=directory
     path="{{ item.path }}"
+    owner="{{ rails_app_user }}"
+    group="{{ rails_app_user }}"
   with_items: rails_app_run_dirs
   sudo: yes

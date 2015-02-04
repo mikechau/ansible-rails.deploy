@@ -77,6 +77,15 @@ rails_app_rollback_release:
 ##### Role Configurable Settings (Defaults)
 ################################################################
 
+# All application instances, this should contain a list of all application instances.
+# List, id and port attribute required.
+rails_app_all_instances:
+  - id: titanium
+    port: 4000
+
+  - id: carbon
+    port: 4001
+
 # Is the application running with RVM?
 # Boolean, ex: true
 rails_app_rvm: true
@@ -129,13 +138,6 @@ rails_app_sockets_path: "{{ rails_app_run_path }}/sockets"
 rails_app_pid_file: "{{ rails_app_pids_path }}/{{ rails_app_id }}.pid"
 
 rails_app_socket_file: "{{ rails_app_sockets_path }}/{{ rails_app_id }}.sock"
-
-# List of passenger instances, there should only be one item.
-# Override this with multiple items during the setup phase to stop all passenger instances.
-# List/Map
-rails_app_passenger_instances:
-  - id: "{{ rails_app_id }}"
-    port: "{{ rails_app_port }}"
 
 # List of application sub directories under the rails_app_base_path.
 # List, ex: /home/vagrant/app/build
@@ -216,4 +218,4 @@ rails_app_passenger_max_pool: 10
 rails_app_passenger_nginx_config: "{{ rails_app_current_path }}/config/passenger/nginx.conf.erb"
 
 # Passenger start flags, passed into passenger start
-application_passenger_start_flags: "-p {{ rails_app_port }} --daemonize --nginx-version {{ rails_app_passenger_nginx_version }} --min-instances {{ rails_app_passenger_min_instances }} --max-pool-size {{ rails_app_passenger_max_pool }} --no-friendly-error-pages --nginx-config-template {{ rails_app_passenger_nginx_config }} --pid-file {{ application_pid }} --load-shell-envvars --temp-dir {{ rails_app_current_tmp_path }}"
+rails_app_passenger_start_flags: "-p {{ rails_app_port }} --daemonize --nginx-version {{ rails_app_passenger_nginx_version }} --min-instances {{ rails_app_passenger_min_instances }} --max-pool-size {{ rails_app_passenger_max_pool }} --no-friendly-error-pages --nginx-config-template {{ rails_app_passenger_nginx_config }} --pid-file {{ rails_app_pid_file }} --load-shell-envvars --temp-dir {{ rails_app_current_tmp_path }}"

@@ -18,7 +18,7 @@
 
 - name: set increment new release
   set_fact:
-    new_release: rails_app_rollback_release or last_release | int + 1
+    new_release: "{{ (rails_app_rollback_release) or (last_release | int + 1) }}"
   when: rails_app_first_run
 
 - name: set new release path
@@ -27,5 +27,5 @@
   when: rails_app_first_run
 
 - name: copy build to release
-  command: "rsync -r {{ rails_app_path }} {{ new_release_path }} --exclude='{{ rails_app_release_exclusions }}'"
+  shell: "rsync -a {{ rails_app_path }}/ {{ new_release_path }} --exclude='{{ rails_app_release_exclusions }}'"
   when: rails_app_first_run

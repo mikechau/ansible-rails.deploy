@@ -3,9 +3,9 @@
 #   - rails_app_id
 #
 # Required FACTS:
-#   - haproxy_is_installed
+#   - haproxyctl_is_installed
 ---
 - name: attach application to haproxy
   command: "service haproxyctl enable server {{ rails_app_name }}/{{ rails_app_id }}"
   sudo: yes
-  when: haproxy_is_installed
+  when: haproxyctl_is_installed is defined and haproxyctl_is_installed is defined

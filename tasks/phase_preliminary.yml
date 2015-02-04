@@ -12,4 +12,4 @@
   when: rails_app_strategy != 'setup'
 
 - include: _purge.yml
-  when: rails_app_strategy == 'setup'
+  when: rails_app_strategy == 'setup' and rails_app_first_run
