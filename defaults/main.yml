@@ -1,7 +1,7 @@
 ---
-################################################################
+############################################################
 ##### Role Configurable Settings (Required)
-################################################################
+############################################################
 
 # Name of the Application. Will be used for things like the parent folder and
 # accessing haproxy backends.
@@ -189,8 +189,11 @@ rails_app_cleanup_files_list:
 # Destination path is relative to rails_app_path.
 # List, ex: config/database.yml
 rails_app_configs:
-  - config/application.yml
-  - config/database.yml
+  - template: config/application.yml.j2
+    dest: config/application.yml
+
+  - template: config/database.yml.j2
+    dest: config/application.yml
 
 # Comma delimited string of files to exclude when copied to release, after the build is complete.
 # String, ex: .git, .ruby-version
@@ -199,11 +202,11 @@ rails_app_release_exclusions: .git
 # List of generated binstubs.
 # List
 rails_app_binstubs:
-  - bin/app
+  - bin/app.j2
 
-################################################################
+############################################################
 ##### Passenger Configurable Settings
-################################################################
+############################################################
 
 # Passenger nginx version, --nginx-version
 rails_app_passenger_nginx_version: 1.7.9
@@ -219,3 +222,53 @@ rails_app_passenger_nginx_config: "{{ rails_app_current_path }}/config/passenger
 
 # Passenger start flags, passed into passenger start
 rails_app_passenger_start_flags: "-p {{ rails_app_port }} --daemonize --nginx-version {{ rails_app_passenger_nginx_version }} --min-instances {{ rails_app_passenger_min_instances }} --max-pool-size {{ rails_app_passenger_max_pool }} --no-friendly-error-pages --nginx-config-template {{ rails_app_passenger_nginx_config }} --pid-file {{ rails_app_pid_file }} --load-shell-envvars --temp-dir {{ rails_app_current_tmp_path }}"
+
+############################################################
+##### Database Configurable Settings
+############################################################
+
+# Rails DB adapter
+rails_app_db_adapter: mysql2
+
+# Rails DB host
+rails_app_db_host: localhost
+
+# Rails DB port
+rails_app_db_port: 3306
+
+# Rails DB pool
+rails_app_db_pool: 25
+
+# Rails DB dev username
+rails_app_db_dev_username: root
+
+# Rails DB dev password
+rails_app_db_dev_password:
+
+# Rails DB username for production
+rails_app_db_username: "{{ rails_app_db_dev_username }}"
+
+# Rails DB password for production
+rails_app_db_password: "{{ rails_app_db_dev_password }}"
+
+# Use a socket file to connect
+rails_app_db_use_socket: true
+
+# Default DB socket path
+rails_app_db_socket_path: /var/mysql/mysql.sock
+
+# DB socket path for OSX
+rails_app_db_osx_socket_path: /tmp/mysql.sock
+
+# Enable vagrant copy of database environment configs to run application in Vagrant and on the Host
+rails_app_db_vagrant_environments: true
+
+############################################################
+##### Application Configurable Settings
+############################################################
+
+rails_app_env_config:
+  APPLICATION_NAME: "{{ rails_app_name }}"
+
+rails_app_env_secrets:
+  SECRET_KEY_BASE: my-secret-key-cant-be-this-secret

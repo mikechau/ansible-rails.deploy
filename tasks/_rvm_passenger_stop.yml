@@ -14,8 +14,6 @@
   register: passenger_instances
   when: (rails_app_first_run and rails_app_strategy == 'setup') or (item.id == rails_app_id and rails_app_strategy != 'setup')
 
-- debug: var=passenger_instances
-
 - name: stop passenger processes (w/ rvm)
   command: "bash -lc 'bundle exec passenger stop -p {{ item.item.port }} --pid-file {{ rails_app_pids_path }}/{{ item.item.id }}.pid'"
   args:
