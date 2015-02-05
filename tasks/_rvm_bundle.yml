@@ -1,0 +1,19 @@
+# Required VARS:
+#   - rails_app_path
+#   - rails_app_environment
+#       RAILS_ENV
+#
+---
+- name: bundle install (all)
+  shell: bash -lc 'bundle install'
+  args:
+    chdir: "{{ rails_app_path }}"
+  environment: rails_app_environment
+  when: rails_app_environment['RAILS_ENV'] != 'production'
+
+- name: bundle install (deployment w/ rvm)
+  shell: bash -lc 'bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment'
+  args:
+    chdir: "{{ rails_app_path }}"
+  environment: rails_app_environment
+  when: rails_app_environment['RAILS_ENV'] == 'production'

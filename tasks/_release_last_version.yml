@@ -1,0 +1,13 @@
+# Requires VARS:
+#   - rails_app_releases_path
+#
+---
+- name: get last release version
+  shell: ls -v */ | cut -f1 -d'/' | tail -n 1
+  args:
+    chdir: "{{ rails_app_releases_path }}"
+  register: last_deploy_release
+
+- name: set release version from last deploy
+  set_fact:
+    last_release: last_deploy_release.stdout

@@ -1,0 +1,16 @@
+# Required VARS:
+#   - rails_app_passenger_start_flags
+#   - rails_app_current_path
+#   - rails_app_pid_file
+#
+---
+- name: start passenger
+  shell: "bash -lc 'bundle exec passenger start {{ rails_app_passenger_start_flags }}'"
+  args:
+    chdir: "{{ rails_app_current_path }}"
+  environment: rails_app_environment
+
+- name: wait for passenger to start...
+  wait_for: >
+    path="{{ rails_app_pid_file }}"
+    state=present

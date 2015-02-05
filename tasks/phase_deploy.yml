@@ -1,0 +1,22 @@
+# Required VARS:
+#   - rails_app_current_path
+#   - rails_app_haproxy
+#
+# Required FACTS:
+#   - new_release_path
+#
+---
+- include: _current_set.yml
+
+- include: _binstubs.yml
+
+- include: _rvm_passenger_start.yml
+
+- include: _port_start_listening.yml
+
+- include: _haproxy_attach.yml
+  when: rails_app_haproxy
+
+- include: _ping_server.yml
+
+- include: _haproxy_healthcheck_up.yml

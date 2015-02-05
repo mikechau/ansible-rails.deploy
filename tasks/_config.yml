@@ -1,0 +1,9 @@
+# Required VARS:
+#   - rails_app_path
+#   - rails_app_configs
+---
+- name: generate application configs
+  template: >
+    src="{{ item.template }}"
+    dest="{{ rails_app_path }}/{{ item.dest }}"
+  with_items: rails_app_configs

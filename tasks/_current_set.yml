@@ -1,0 +1,33 @@
+# Required VARS:
+#   - rails_app_current_path
+#   - rails_app_base_path
+#   - rails_app_id
+#   - rails_app_current_path
+#   - rails_app_run_path
+#
+# Required FACTS:
+#   - new_release_path
+---
+- name: remove current application
+  file: >
+    state=absent
+    path="{{ rails_app_current_path }}"
+
+- name: copy release to current application
+  command: "cp -r {{ new_release_path }} {{ rails_app_current_path }}"
+  args:
+    chdir: "{{ rails_app_base_path }}"
+
+- name: symlink shared logs
+  file: >
+    state=link
+    src="{{ rails_app_base_path }}/log/{{ rails_app_id }}"
+    dest="{{ rails_app_current_path }}/log"
+    force=yes
+
+- name: symlink to run
+  file: >
+    state=link
+    src="{{ rails_app_run_path }}"
+    dest="{{ rails_app_current_path }}/run"
+    force=yes

@@ -1,0 +1,36 @@
+# Required VARS:
+#   - rails_app_name
+#   - rails_app_id
+#   - rails_app_current_path
+#   - rails_app_http_check_path
+#   - rails_app_port
+#
+# Required FACTS:
+#   - haproxyctl_is_installed
+---
+- name: detach application from loadbalancer
+  command: "service haproxyctl disable server {{ rails_app_name }}/{{ rails_app_id }}"
+  sudo: yes
+  when: haproxyctl_is_installed is defined and haproxyctl_is_installed
+
+- name: wait for detach to finish...
+  shell: "service haproxyctl show health | awk '/{{ rails_app_name }}/ && /{{ rails_app_id }}/'"
+  register: haproxy_detach_status
+  sudo: yes
+  until: haproxy_detach_status.stdout | search('MAINT')
+  delay: 10
+  retries: 25
+  when: haproxyctl_is_installed is defined and haproxyctl_is_installed
+
+- name: enable maintenance mode
+  file: >
+    state=absent
+    path="{{ rails_app_current_path }}/public/{{ rails_app_http_check_path }}"
+
+- name: wait for drained connections...
+  wait_for: >
+    host=0.0.0.0
+    port="{{ rails_app_port }}"
+    state=drained
+    delay=5
+    timeout=300

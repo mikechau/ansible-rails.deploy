@@ -1,0 +1,53 @@
+# Required VARS
+#   - rails_app_environment
+#       RAILS_ENV
+#   - rails_app_run_dirs
+#   - rails_app_user
+#   - rails_app_log_path
+#   - rails_app_logs
+#   - rails_app_rsyslog_path
+#   - rails_app_rsyslog_conf
+#
+---
+- name: add RAILS_ENV to bash profile
+  lineinfile: >
+    dest=~/.bash_profile
+    regexp="export RAILS_ENV={{ rails_app_environment['RAILS_ENV'] }}"
+    line="export RAILS_ENV={{ rails_app_environment['RAILS_ENV'] }}"
+    state=present
+
+- name: create run directories
+  file: >
+    state=directory
+    path="{{ item.path }}"
+    owner="{{ rails_app_user }}"
+    group="{{ rails_app_user }}"
+  with_items: rails_app_run_dirs
+  sudo: yes
+
+- name: create syslog directory
+  file: >
+    state=directory
+    path="{{ rails_app_log_path }}"
+  sudo: yes
+
+- name: create syslog files
+  file: >
+    state=touch
+    path="{{ item }}"
+  with_items: rails_app_logs
+  sudo: yes
+
+- name: generate rsyslog config
+  template: >
+    src=etc/rsyslog.d/rails_app.conf.j2
+    dest="{{ rails_app_rsyslog_path }}/{{ rails_app_rsyslog_conf }}"
+  sudo: yes
+  notify:
+    - restart rsyslog
+
+- name: generate logrotate config
+  template: >
+    src=etc/logrotate.d/rails_app.j2
+    dest="{{ rails_app_logrotate_path }}/{{ rails_app_name }}"
+  sudo: yes

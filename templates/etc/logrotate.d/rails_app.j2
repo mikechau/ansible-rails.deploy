@@ -1,0 +1,19 @@
+{{ rails_app_log_info }} {
+  daily
+  missingok
+  rotate 7
+  compress
+  delaycompress
+  notifempty
+  copytruncate
+}
+
+{{ rails_app_log_notice }} {
+  daily
+  missingok
+  rotate 7
+  compress
+  delaycompress
+  notifempty
+  copytruncate
+}

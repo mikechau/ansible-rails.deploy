@@ -1,0 +1,15 @@
+---
+- include: _git.yml
+  when: rails_app_first_run
+
+- include: _rvm_bundle.yml
+  when: rails_app_first_run
+
+- include: _config.yml
+  when: rails_app_first_run
+
+- include: _rvm_rake_db.yml
+  when: rails_app_first_run
+
+- include: _rvm_rake_precompile.yml
+  when: rails_app_first_run

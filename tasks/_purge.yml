@@ -1,0 +1,22 @@
+# Required VARS:
+#   - rails_app_base_path
+#   - rails_app_sub_dirs
+#   - rails_app_run_dirs
+#
+# Option:
+#   - rails_app_purge_all
+---
+- name: purge all sub dirs except build
+  file: >
+    state=absent
+    path="{{ rails_app_base_path }}/{{ item.dir }}"
+  with_items: rails_app_sub_dirs
+  when: rails_app_purge_all or item.dir != 'build'
+
+- name: purge run folder
+  file: >
+    state=absent
+    path="{{ item.path }}"
+  with_items: rails_app_run_dirs
+  when: rails_app_purge_all
+  sudo: yes

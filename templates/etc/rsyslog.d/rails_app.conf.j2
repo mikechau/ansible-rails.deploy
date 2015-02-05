@@ -1,0 +1,6 @@
+if $programname contains '{{ rails_app_name }}' then {
+  *.=info -{{ haproxy_log_info }};
+  & ~
+
+  *.notice {{ rails_app_notice }};
+}

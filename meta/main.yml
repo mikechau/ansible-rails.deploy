@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Michael Chau
+  description: Ansible role for Ruby on Rails rolling upgrades with Haproxy and Phusion Passenger Standalone.
+  company: 
+  license: license (MIT)
+  min_ansible_version: 1.8
+
+  platforms:
+  - name: EL
+    versions:
+    - 6
+
+  categories:
+  - web
+
+dependencies: []

@@ -1,0 +1,11 @@
+# Required VARS:
+#   - rails_app_port
+#
+---
+- name: wait for port to close...
+  wait_for: >
+    port="{{ rails_app_port }}"
+    delay=5
+    host=0.0.0.0
+    state=stopped
+    timeout=360

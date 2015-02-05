@@ -1,0 +1,15 @@
+---
+- include: _fact_check.yml
+  when: rails_app_haproxy
+
+- include: phase_preliminary.yml
+
+- include: phase_setup.yml
+
+- include: phase_build.yml
+  when: rails_app_strategy != 'rollback'
+
+- include: phase_release.yml
+  when: rails_app_strategy != 'rollback'
+
+- include: phase_deploy.yml
