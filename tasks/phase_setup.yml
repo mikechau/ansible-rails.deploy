@@ -2,6 +2,7 @@
 #   - rails_app_sub_dirs
 #   - rails_app_base_path
 #   - rails_app_syslog_path
+#   - rails_app_log_path
 #
 ---
 - include: _system.yml
@@ -26,8 +27,7 @@
 - name: create symlinks to syslog logs
   file: >
     state=link
-    src="{{ item }}"
+    src="{{ rails_app_log_path }}"
     dest="{{ rails_app_syslog_path }}"
     force=yes
-  with_items: rails_app_logs
   when: rails_app_first_run and rails_app_strategy == 'setup'
