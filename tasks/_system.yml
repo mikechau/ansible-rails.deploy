@@ -6,7 +6,7 @@
 #   - rails_app_log_path
 #   - rails_app_logs
 #   - rails_app_rsyslog_path
-#   - rails_app_log_conf
+#   - rails_app_rsyslog_conf
 #
 ---
 - name: add RAILS_ENV to bash profile
@@ -41,7 +41,7 @@
 - name: generate syslog config
   template: >
     src=etc/rsyslog.d/rails_app.conf.j2
-    dest="{{ rails_app_rsyslog_path }}/{{ rails_app_log_conf }}"
+    dest="{{ rails_app_rsyslog_path }}/{{ rails_app_rsyslog_conf }}"
   sudo: yes
 
 - name: generate logrotate config

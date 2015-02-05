@@ -259,11 +259,11 @@ rails_app_logs:
 
 # Priority for the syslog conf
 # Integer, ex: 25
-rails_app_log_priority: 25
+rails_app_rsyslog_priority: 25
 
 # Syslog conf name for the application
 # String, ex: 25-my_app.conf
-rails_app_log_conf: "{{ rails_app_log_priority }}-{{ rails_app_name }}.conf"
+rails_app_rsyslog_conf: "{{ rails_app_rsyslog_priority }}-{{ rails_app_name }}.conf"
 
 ############################################################
 ##### Database Configurable Settings
