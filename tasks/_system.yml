@@ -38,11 +38,13 @@
   with_items: rails_app_logs
   sudo: yes
 
-- name: generate syslog config
+- name: generate rsyslog config
   template: >
     src=etc/rsyslog.d/rails_app.conf.j2
     dest="{{ rails_app_rsyslog_path }}/{{ rails_app_rsyslog_conf }}"
   sudo: yes
+  notify:
+    - restart rsyslog
 
 - name: generate logrotate config
   template: >
