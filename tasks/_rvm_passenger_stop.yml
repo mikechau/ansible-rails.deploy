@@ -28,4 +28,4 @@
     delay=5
     timeout=300
   with_items: passenger_instances.results
-  when: (rails_app_first_run and rail_app_strategy == 'setup' and item.stat is defined and item.stat.exists) or (item.item is defined and item.item.id == rails_app_id and item.stat is defined item.stat.exists)
+  when: (rails_app_first_run and rail_app_strategy == 'setup' and item.stat is defined and item.stat.exists) or (item.item is defined and item.item.id == rails_app_id and item.stat is defined and item.stat.exists)
