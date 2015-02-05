@@ -20,7 +20,7 @@ production:
   password: {{ rails_app_db_password }}
   {% endif %}
   {% if rails_app_db_use_socket %}
-  socket: {{ rails_db_socket_path }}
+  socket: {{ rails_app_db_socket_path }}
   {% else %}
   port: {{ rails_app_db_port }}
   {% endif %}
