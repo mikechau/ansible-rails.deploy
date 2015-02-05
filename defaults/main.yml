@@ -207,7 +207,8 @@ rails_app_release_exclusions: .git
 # List of generated binstubs.
 # List
 rails_app_binstubs:
-  - bin/app.j2
+  - template: bin/app.j2
+    dest: bin/app
 
 ############################################################
 ##### Passenger Configurable Settings
