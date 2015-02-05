@@ -200,7 +200,7 @@ rails_app_configs:
     dest: config/application.yml
 
   - template: config/database.yml.j2
-    dest: config/application.yml
+    dest: config/database.yml
 
 # Comma delimited string of files to exclude when copied to release, after the build is complete.
 # String, ex: .git, .ruby-version
