@@ -8,6 +8,7 @@
 # MYSQL ADAPTER CONFIGURATION
 
 {% if rails_app_environment['RAILS_ENV'] == 'production' %}
+
 production:
   adapter: {{ rails_app_db_adapter }}
   encoding: utf8
@@ -16,31 +17,51 @@ production:
   host: {{ rails_app_db_host }}
   pool: {{ rails_app_db_pool }}
   username: {{ rails_app_db_username }}
+
   {% if rails_app_db_password %}
+
   password: {{ rails_app_db_password }}
+
   {% endif %}
+
   {% if rails_app_db_use_socket %}
+
   socket: {{ rails_app_db_socket_path }}
+
   {% else %}
+
   port: {{ rails_app_db_port }}
+
   {% endif %}
+
 {% else %}
+
 default: &default
   adapter: {{ rails_app_db_adapter }}
   encoding: utf8
   pool: 5
   username: {{ rails_app_db_dev_username }}
+
   {% if rails_app_db_dev_password %}
+
   password: {{ rails_app_db_dev_password }}
+
   {% endif %}
+
   {% if rails_app_db_use_socket %}
     {% if ansible_system == 'Darwin' %}
+
   socket: {{ rails_app_db_osx_socket_path }}
+
     {% else %}
+
   socket: {{ rails_app_db_socket_path }}
+
     {% endif %}
   {% else %}
+
     port: {{ rails_app_db_port }}
+
   {% endif %}
 
 vagrant_default: &vagrant_default
@@ -71,5 +92,6 @@ vagrant_test:
 vagrant_production:
   <<: *vagrant_default
   database: {{ rails_app_name }}_production
+
   {% endif %}
 {% endif %}
