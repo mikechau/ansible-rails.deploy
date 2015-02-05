@@ -30,5 +30,5 @@
   when: rails_app_first_run
 
 - name: copy build to release
-  shell: "rsync -a {{ rails_app_path }}/ {{ new_release_path }} --exclude={{{ rails_app_release_exclusions }}}"
+  shell: "rsync -a {{ rails_app_path }}/ {{ new_release_path }} --exclude={{ rails_app_release_exclusions }}"
   when: rails_app_first_run

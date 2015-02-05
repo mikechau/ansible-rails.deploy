@@ -202,7 +202,7 @@ rails_app_configs:
 
 # Comma delimited string of files to exclude when copied to release, after the build is complete.
 # String, ex: .git, .ruby-version
-rails_app_release_exclusions: ".git,log"
+rails_app_release_exclusions: "{.git,log}"
 
 # List of generated binstubs.
 # List
