@@ -10,5 +10,5 @@
 
 - name: set haproxyctl_is_installed
   set_fact:
-    haproxyctl_is_installed: haproxyctl.stat.exists
+    haproxyctl_is_installed: "{{ haproxyctl.stat.exists }}"
   when: rails_app_first_run
