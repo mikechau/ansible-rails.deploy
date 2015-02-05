@@ -16,9 +16,9 @@
 # APPLICATION CONFIG
 {% for (key, value) in rails_app_env_config.iteritems() %}
   {{ key }}: {{ value }}
-{% end %}
+{% endif %}
 
 # APPLICATION SECRETS
 {% for (key, value) in rails_app_env_secrets.interitems() %}
   {{ key }}: {{ value }}
-{% end %}
+{% endif %}
