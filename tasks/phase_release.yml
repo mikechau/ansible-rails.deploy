@@ -31,4 +31,4 @@
 
 - name: copy build to release
   shell: "rsync -a {{ rails_app_path }}/ {{ new_release_path }} --exclude={{ rails_app_release_exclusions }}"
-  when: rails_app_first_run
+  when: rails_app_first_run and rails_app_strategy != 'rollback'
