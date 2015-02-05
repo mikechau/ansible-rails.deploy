@@ -19,6 +19,6 @@
 {% endfor %}
 
 # APPLICATION SECRETS
-{% for (key, value) in rails_app_env_secrets.interitems() %}
+{% for (key, value) in rails_app_env_secrets.iteritems() %}
   {{ key }}: {{ value }}
 {% endfor %}
