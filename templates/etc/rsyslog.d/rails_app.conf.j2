@@ -1,6 +1,5 @@
-if $programname contains '{{ rails_app_name }}' then {
-  *.=info -{{ rails_app_log_info }};
-  & ~
+!{{ rails_app_name }}
+*.=info -{{ rails_app_log_info }};
+& ~
 
-  *.notice {{ rails_app_log_notice }};
-}
+*.notice {{ rails_app_log_notice }};
