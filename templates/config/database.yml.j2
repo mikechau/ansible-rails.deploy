@@ -11,7 +11,7 @@
 production:
   adapter: {{ rails_app_db_adapter }}
   encoding: utf8
-  database: {{ application_name }}_production
+  database: {{ rails_app_name }}_production
   reconnect: true
   host: {{ rails_app_db_host }}
   pool: {{ rails_app_db_pool }}
@@ -49,27 +49,27 @@ vagrant_default: &vagrant_default
 
 development:
   <<: *default
-  database: {{ application_name }}_development
+  database: {{ rails_app_name }}_development
 
 test:
   <<: *default
-  database: {{ application_name }}_test
+  database: {{ rails_app_name }}_test
 
 production:
   <<: *default
-  database: {{ application_name }}_production
+  database: {{ rails_app_name }}_production
 
   {% if rails_app_db_vagrant_environments %}
 vagrant_development:
   <<: *vagrant_default
-  database: {{ application_name }}_development
+  database: {{ rails_app_name }}_development
 
 vagrant_test:
   <<: *vagrant_default
-  database: {{ application_name }}_test
+  database: {{ rails_app_name }}_test
 
 vagrant_production:
   <<: *vagrant_default
-  database: {{ application_name }}_production
+  database: {{ rails_app_name }}_production
   {% endif %}
 {% endif %}
