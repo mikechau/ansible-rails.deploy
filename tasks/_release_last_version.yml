@@ -10,4 +10,4 @@
 
 - name: set release version from last deploy
   set_fact:
-    last_release: last_deploy_release.stdout
+    last_release: "{{ last_deploy_release.stdout }}"
