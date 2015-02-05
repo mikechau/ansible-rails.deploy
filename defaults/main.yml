@@ -125,6 +125,11 @@ rails_app_releases_path: "{{ rails_app_base_path }}/releases"
 # String, ex: /home/vagrant/my-app/current/my-app-instance-1/tmp
 rails_app_current_tmp_path: "{{ rails_app_current_path }}/tmp"
 
+# The rails_app_name/log/syslog path.
+# Contains symlinks to the logs in syslog.
+# String, ex: /var/log/rails/rails-info.log
+rails_app_syslog_path: "{{ rails_app_base_path }}/log/syslog"
+
 # The application run path, stores the pids and sockets folders.
 rails_app_run_path: "/var/run/{{ rails_app_name }}"
 
@@ -154,6 +159,8 @@ rails_app_sub_dirs:
   - dir: releases
 
   - dir: shared
+
+  - dir: log/syslog
 
   - dir: "log/{{ rails_app_id }}"
 
@@ -222,6 +229,41 @@ rails_app_passenger_nginx_config: "{{ rails_app_current_path }}/config/passenger
 
 # Passenger start flags, passed into passenger start
 rails_app_passenger_start_flags: "-p {{ rails_app_port }} --daemonize --nginx-version {{ rails_app_passenger_nginx_version }} --min-instances {{ rails_app_passenger_min_instances }} --max-pool-size {{ rails_app_passenger_max_pool }} --no-friendly-error-pages --nginx-config-template {{ rails_app_passenger_nginx_config }} --pid-file {{ rails_app_pid_file }} --load-shell-envvars --temp-dir {{ rails_app_current_tmp_path }}"
+
+################################################################
+##### Syslog Configurable Settings
+################################################################
+
+# System path to rsyslog
+# String, ex: /etc/rsyslog.d
+rails_app_rsyslog_path: /etc/rsyslog.d
+
+# System path to logrotate
+# String, ex: /etc/logrotate.d
+rails_app_logrotate_path: /etc/logrotate.d
+
+# Base path to rsyslog log location for application
+# String, ex: /var/log/my-app
+rails_app_log_path: "/var/log/{{ rails_app_name }}"
+
+# Full path to rsyslog logs
+# String, ex: /var/log/my-app/info.log
+rails_app_log_info: "{{ rails_app_log_path }}/info.log"
+rails_app_log_error: "{{ rails_app_log_path }}/error.log"
+
+# List of logs for the Rails application
+# List
+rails_app_logs:
+  - "{{ rails_app_log_info }}"
+  - "{{ rails_app_log_error }}"
+
+# Priority for the syslog conf
+# Integer, ex: 25
+rails_app_log_priority: 25
+
+# Syslog conf name for the application
+# String, ex: 25-my_app.conf
+rails_app_log_conf: "{{ rails_app_log_priority }}-{{ rails_app_name }}.conf"
 
 ############################################################
 ##### Database Configurable Settings
