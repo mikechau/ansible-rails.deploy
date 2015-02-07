@@ -51,10 +51,12 @@ rails_app_production_ready:
 # Boolean, ex: false
 rails_app_purge_all:
 
-# Is this role a first run?
-# To prevent repeating tasks on the same host.
-# Boolean, ex: false
-rails_app_first_run:
+# Is this the first or last run?
+# This helps prevent duplicate tasks from running on the same host. Such as building.
+# Options:
+#   - first
+#   - last
+rails_app_run:
 
 # Git repo url/ssh path.
 # Where to clone the application from.
@@ -72,6 +74,8 @@ rails_app_git_depth: 1
 # Enable this to rollback a deploy, specify the release #.
 # String, ex: 1
 rails_app_rollback_release:
+
+rails_app_release_count: 10
 
 ################################################################
 ##### Role Configurable Settings (Defaults)

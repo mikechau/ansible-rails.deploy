@@ -1,14 +1,17 @@
 ---
 - include: _fact_check.yml
-  when: rails_app_haproxy
+  when: rails_app_run == 'first' and rails_app_haproxy
 
 - include: phase_preliminary.yml
 
 - include: phase_setup.yml
 
 - include: phase_build.yml
-  when: rails_app_strategy != 'rollback'
+  when: rails_app_strategy != 'rollback' and rails_app_run == 'first'
 
 - include: phase_release.yml
 
 - include: phase_deploy.yml
+
+- include: phase_cleanup.yml
+  when: rails_app_run == 'last'

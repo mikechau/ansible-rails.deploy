@@ -1,6 +1,6 @@
 # Require VARS:
 #   - rails_app_strategy
-#   - rails_app_first_run
+#   - rails_app_run
 #   - rails_app_releases_path
 #   - rails_app_path
 #   - rails_app_release_exclusions
@@ -14,21 +14,21 @@
 #
 ---
 - include: _release_initial_version.yml
-  when: rails_app_strategy == 'setup' and rails_app_first_run
+  when: rails_app_strategy == 'setup' and rails_app_run == 'first'
 
 - include: _release_last_version.yml
-  when: rails_app_strategy == 'deploy' and rails_app_first_run
+  when: rails_app_strategy == 'deploy' and rails_app_run == 'first'
 
 - name: set increment new release
   set_fact:
     new_release: "{{ (rails_app_rollback_release) or (last_release | int + 1) }}"
-  when: rails_app_first_run
+  when: rails_app_run == 'first'
 
 - name: set new release path
   set_fact:
     new_release_path: "{{ rails_app_releases_path }}/{{ new_release }}"
-  when: rails_app_first_run
+  when: rails_app_run == 'first'
 
 - name: copy build to release
   shell: "rsync -a {{ rails_app_path }}/ {{ new_release_path }} --exclude={{ rails_app_release_exclusions }}"
-  when: rails_app_first_run and rails_app_strategy != 'rollback'
+  when: rails_app_run == 'first' and rails_app_strategy != 'rollback'

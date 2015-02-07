@@ -3,10 +3,12 @@
 #   - rails_app_base_path
 #   - rails_app_syslog_path
 #   - rails_app_log_path
+#   - rails_app_run
+#   - rails_app_strategy
 #
 ---
 - include: _system.yml
-  when: rails_app_first_run and rails_app_strategy == 'setup'
+  when: rails_app_run == 'first' and rails_app_strategy == 'setup'
 
 - name: create application directories
   file: >
@@ -22,7 +24,7 @@
     dest="{{ rails_app_base_path }}/{{ item.dir }}"
     force=yes
   with_items: rails_app_sub_dirs
-  when: item.src is defined and rails_app_first_run and rails_app_strategy == 'setup'
+  when: item.src is defined and rails_app_run == 'first' and rails_app_strategy == 'setup'
 
 - name: create symlinks to syslog logs
   file: >
@@ -30,4 +32,4 @@
     src="{{ rails_app_log_path }}"
     dest="{{ rails_app_syslog_path }}"
     force=yes
-  when: rails_app_first_run and rails_app_strategy == 'setup'
+  when: rails_app_run == 'first' and rails_app_strategy == 'setup'
