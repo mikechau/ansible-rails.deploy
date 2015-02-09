@@ -1,6 +1,6 @@
 ---
-- name: restart rsyslog
+- name: reload rsyslog
   service: >
-    state=restarted
+    state=reloaded
     name=rsyslog
-
+  sudo: yes

@@ -1,5 +1,6 @@
-!{{ rails_app_name }}
-*.=info -{{ rails_app_log_info }};
+if $programname == '{{ rails_app_name }}' then -{{ rails_app_log_all }}
+
+if $programname == '{{ rails_app_name }}' and $syslogseverity == '6' then -{{ rails_app_log_info }}
 & ~
 
-*.notice {{ rails_app_log_notice }};
+if $programname == '{{ rails_app_name }}' and $syslogseverity <= '5' then {{ rails_app_log_notice }}

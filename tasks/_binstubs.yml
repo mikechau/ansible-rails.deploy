@@ -1,11 +1,7 @@
-# Required VARS:
-#   - rails_app_current_path
-#   - rails_app_binstubs
-#
 ---
 - name: generate application binstubs
   template: >
     src="{{ item.template }}"
     dest="{{ rails_app_current_path }}/{{ item.dest }}"
     mode="u=rwx,g=rx,o=rx"
-  with_items: rails_app_binstubs
+  with_items: rails_app_cmdstubs

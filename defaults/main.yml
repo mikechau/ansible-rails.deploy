@@ -20,7 +20,7 @@ rails_app_user:
 # The application http check relative url. No need for beginning /.
 # Already appended.
 # String, ex: ok.html
-rails_app_http_check_path:
+rails_app_http_check_uri:
 
 # The application host.
 # IP, ex: 127.0.0.1
@@ -163,6 +163,10 @@ rails_app_sub_dirs:
   - dir: shared
 
   - dir: log/syslog
+    src: "{{ rails_app_log_path }}"
+
+  - dir: log/nginx
+    src: "{{ rails_app_nginx_log_path }}"
 
   - dir: "log/{{ rails_app_id }}"
 
@@ -171,6 +175,10 @@ rails_app_sub_dirs:
 
   - dir: sockets
     src: "{{ rails_app_sockets_path }}"
+
+rails_app_sub_build_dirs:
+  - cmd
+  - config/passenger
 
 # A list of directories in the run path.
 # List, ex: /var/run/app
@@ -204,15 +212,18 @@ rails_app_configs:
   - template: config/database.yml.j2
     dest: config/database.yml
 
+  - template: config/passenger/nginx.conf.erb.j2
+    dest: config/passenger/nginx.conf.erb
+
 # Comma delimited string of files to exclude when copied to release, after the build is complete.
 # String, ex: .git, .ruby-version
 rails_app_release_exclusions: "{.git,log}"
 
 # List of generated binstubs.
 # List
-rails_app_binstubs:
-  - template: bin/app.j2
-    dest: bin/app
+rails_app_cmdstubs:
+  - template: cmd/app.j2
+    dest: cmd/app
 
 ############################################################
 ##### Passenger Configurable Settings
@@ -227,7 +238,7 @@ rails_app_passenger_min_instances: 10
 # Passenger max pool, --max-pool
 rails_app_passenger_max_pool: 10
 
-# Passenger custom nginx config, --ngninx-config-template
+# Passenger custom nginx config, --nginx-config-template
 rails_app_passenger_nginx_config: "{{ rails_app_current_path }}/config/passenger/nginx.conf.erb"
 
 # Passenger start flags, passed into passenger start
@@ -251,12 +262,14 @@ rails_app_log_path: "/var/log/{{ rails_app_name }}"
 
 # Full path to rsyslog logs
 # String, ex: /var/log/my-app/info.log
+rails_app_log_all: "{{ rails_app_log_path }}/all.log"
 rails_app_log_info: "{{ rails_app_log_path }}/info.log"
 rails_app_log_notice: "{{ rails_app_log_path }}/notice.log"
 
 # List of logs for the Rails application
 # List
 rails_app_logs:
+  - "{{ rails_app_log_all }}"
   - "{{ rails_app_log_info }}"
   - "{{ rails_app_log_notice }}"
 
@@ -267,6 +280,35 @@ rails_app_rsyslog_priority: 25
 # Syslog conf name for the application
 # String, ex: 25-my_app.conf
 rails_app_rsyslog_conf: "{{ rails_app_rsyslog_priority }}-{{ rails_app_name }}.conf"
+
+# Path to nginx logs
+# String, ex: /var/log/nginx
+rails_app_nginx_log_path: "/var/log/nginx"
+
+# Absolute path to nginx info log
+# String, ex: /var/log/nginx/info.log
+rails_app_nginx_log_info: "{{ rails_app_nginx_log_path }}/info.log"
+
+# Absolute path to nginx error log
+# String, ex: /var/log/nginx/error.log
+rails_app_nginx_log_error: "{{ rails_app_nginx_log_path }}/error.log"
+
+# Absolute path to nginx healhcheck error log
+# String, ex: /var/log/nginx/healthcheck-error.log
+rails_app_nginx_healthcheck_log_error: "{{ rails_app_nginx_log_path }}/healthcheck-error.log"
+
+# List of nginx logs
+# List
+rails_app_nginx_logs:
+  - "{{ rails_app_nginx_log_error }}"
+  - "{{ rails_app_nginx_healthcheck_log_error }}"
+
+# Priority level for nginx rsyslog config
+# Integer, ex: 30
+rails_app_nginx_rsyslog_priority: 30
+
+# Nginx rsyslog conf name
+rails_app_nginx_rsyslog_conf: "{{ rails_app_nginx_rsyslog_priority }}-{{ rails_app_name }}-nginx.conf"
 
 ############################################################
 ##### Database Configurable Settings

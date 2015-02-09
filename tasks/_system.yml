@@ -1,13 +1,3 @@
-# Required VARS
-#   - rails_app_environment
-#       RAILS_ENV
-#   - rails_app_run_dirs
-#   - rails_app_user
-#   - rails_app_log_path
-#   - rails_app_logs
-#   - rails_app_rsyslog_path
-#   - rails_app_rsyslog_conf
-#
 ---
 - name: add RAILS_ENV to bash profile
   lineinfile: >
@@ -38,16 +28,46 @@
   with_items: rails_app_logs
   sudo: yes
 
-- name: generate rsyslog config
+- name: generate rsyslog config (app)
   template: >
     src=etc/rsyslog.d/rails_app.conf.j2
     dest="{{ rails_app_rsyslog_path }}/{{ rails_app_rsyslog_conf }}"
   sudo: yes
   notify:
-    - restart rsyslog
+    - reload rsyslog
 
-- name: generate logrotate config
+- name: generate logrotate config (app)
   template: >
     src=etc/logrotate.d/rails_app.j2
     dest="{{ rails_app_logrotate_path }}/{{ rails_app_name }}"
   sudo: yes
+
+- name: create nginx directory
+  file: >
+    state=directory
+    path="{{ rails_app_nginx_log_path }}"
+  sudo: yes
+
+- name: create nginx log files
+  file: >
+    state=touch
+    path="{{ item }}"
+  with_items: rails_app_nginx_logs
+  sudo: yes
+
+- name: generate rsyslog config (nginx)
+  template: >
+    src=etc/rsyslog.d/nginx.conf.j2
+    dest="{{ rails_app_rsyslog_path }}/{{ rails_app_nginx_rsyslog_conf }}"
+  sudo: yes
+  notify:
+    - reload rsyslog
+
+- name: generate logrotate config (nginx)
+  template: >
+    src=etc/logrotate.d/nginx.j2
+    dest="{{ rails_app_logrotate_path }}/{{ rails_app_name }}-nginx"
+  sudo: yes
+
+- name: application flush handlers
+  meta: flush_handlers

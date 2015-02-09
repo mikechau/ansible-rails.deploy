@@ -1,6 +1,3 @@
-# Requires VARS:
-#   - rails_app_releases_path
-#
 ---
 - name: get last release version
   shell: "ls -vd */ | cut -f1 -d'/' | grep -E '^[0-9]+' | tail -n 1"

@@ -1,11 +1,3 @@
-# Required VARS:
-#   - rails_app_git_repo
-#   - rails_app_path
-#   - rails_app_git_branch
-#   - rails_app_cleanup_files_list
-#
-# Optional:
-#   - rails_app_git_depth
 ---
 - name: checkout git repo
   git: >
@@ -21,3 +13,9 @@
     state=absent
     path="{{ rails_app_path }}/{{ item }}"
   with_items: rails_app_cleanup_files_list
+
+- name: create sub build directories
+  file: >
+    state=directory
+    path="{{ rails_app_path }}/{{ item }}"
+  with_items: rails_app_sub_build_dirs

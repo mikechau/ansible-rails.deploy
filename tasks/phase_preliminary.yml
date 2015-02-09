@@ -1,11 +1,6 @@
-# Required VARS:
-#   - rails_app_strategy
-#   - rails_app_haproxy
-#   - rails_app_run
-#
 ---
 - include: _haproxy_statuscheck_up.yml
-  when: rails_app_run == 'first'
+  when: rails_app_strategy != 'setup' and rails_app_run == 'first' and rails_app_haproxy and haproxyctl_is_installed
 
 - include: _haproxy_detach.yml
   when: rails_app_strategy != 'setup' and rails_app_haproxy

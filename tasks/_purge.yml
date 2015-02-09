@@ -1,10 +1,3 @@
-# Required VARS:
-#   - rails_app_base_path
-#   - rails_app_sub_dirs
-#   - rails_app_run_dirs
-#
-# Option:
-#   - rails_app_purge_all
 ---
 - name: purge all sub dirs except build
   file: >

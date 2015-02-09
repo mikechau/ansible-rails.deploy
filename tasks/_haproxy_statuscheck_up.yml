@@ -1,1 +1,26 @@
 ---
+- name: get environment
+  command: bash -lc 'cmd/env-export --yaml'
+  args:
+    chdir: "{{ rails_app_path }}"
+  register: env
+
+- name: check haproxy stats
+  script: "haproxy-stat.rb --backend={{ rails_app_name }} --current-server={{ rails_app_id }} --servers={{ rails_app_all_instances | joins_by_key('id') }}"
+  args:
+    chdir: "{{ rails_app_path }}"
+  environment: env.stdout | from_yaml
+  register: haproxy_stat
+  ignore_errors: yes
+
+- name: set haproxy_stat fact
+  set_fact:
+    haproxy_status: "{{ haproxy_stat.stdout | from_json }}"
+
+- name: show haproxy stat results
+  debug: var=haproxy_status
+
+- name: fail if servers are not ready
+  fail: >
+    msg="Cannot continue deploy process, failed haproxy stat check."
+  when: not haproxy_status.ready

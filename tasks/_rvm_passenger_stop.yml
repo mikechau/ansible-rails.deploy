@@ -1,11 +1,3 @@
-# Required VARS:
-#   - rails_app_current_path - absolute path
-#   - rails_app_all_instances - list of passenger instances
-#       - attributes: id, port
-#   - rails_app_run
-#   - rails_app_strategy
-#   - rails_app_id
-#
 ---
 - name: check if passenger is running
   stat: >
@@ -26,6 +18,6 @@
     state=absent
     path="{{ rails_app_pids_path }}/{{ item.item.id }}.pid"
     delay=5
-    timeout=300
+    timeout=720
   with_items: passenger_instances.results
   when: (rails_app_run == 'first' and rail_app_strategy == 'setup' and item.stat is defined and item.stat.exists) or (item.item is defined and item.item.id == rails_app_id and item.stat is defined and item.stat.exists)

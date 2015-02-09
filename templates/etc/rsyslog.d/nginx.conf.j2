@@ -1,0 +1,4 @@
+if $programname == 'nginx_healthcheck' then -{{ rails_app_nginx_healthcheck_log_error }}
+& ~
+
+if $programname == 'nginx' then {{ rails_app_nginx_log_error }}

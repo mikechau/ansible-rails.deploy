@@ -1,5 +1,5 @@
 ---
-- include: _fact_check.yml
+- include: _haproxyctl_check.yml
   when: rails_app_run == 'first' and rails_app_haproxy
 
 - include: phase_preliminary.yml
@@ -14,4 +14,7 @@
 - include: phase_deploy.yml
 
 - include: phase_cleanup.yml
+  when: rails_app_run == 'last'
+
+- include: phase_complete.yml
   when: rails_app_run == 'last'

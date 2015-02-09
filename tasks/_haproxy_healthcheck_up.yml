@@ -1,17 +1,8 @@
-# Required VARS:
-#   - rails_app_current_path
-#   - rails_app_http_check_path
-#   - rails_app_name
-#   - rails_app_id
-#
-# Required FACTS:
-#   - haproxyctl_is_installed
-#
 ---
 - name: allow traffic to application
   file: >
     state=touch
-    path="{{ rails_app_current_path }}/public/{{ rails_app_http_check_path }}"
+    path="{{ rails_app_current_path }}/public/{{ rails_app_http_check_uri }}"
 
 - name: wait for healthcheck to be up...
   shell: "service haproxyctl show health | awk '/{{ rails_app_name }}/ && /{{ rails_app_id }}/'"

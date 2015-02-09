@@ -1,0 +1,4 @@
+---
+- name: application deploy complete
+  debug: >
+    msg="Release: {{ new_release }} deployed to instances: {{ rails_app_all_instances | joins_by_key('id') }}"

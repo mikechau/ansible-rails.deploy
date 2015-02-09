@@ -1,0 +1,9 @@
+{{ rails_app_nginx_log_error }} {
+  daily
+  missingok
+  rotate 7
+  compress
+  delaycompress
+  notifempty
+  copytruncate
+}
