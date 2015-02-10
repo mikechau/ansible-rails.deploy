@@ -83,7 +83,7 @@ rails_app_release_count: 10
 # This roles exports the environment variables to ~/.bash_profile and runs it when running commands that call 'bash -lc'.
 # Map
 #   RAILS_ENV: production
-rails_app_environment:
+rails_app_environment: []
 
 ############################################################
 ##### Role Configurable Settings (Defaults)
@@ -300,6 +300,9 @@ rails_app_env_config:
 
 rails_app_env_secrets:
   SECRET_KEY_BASE: my-secret-key-cant-be-this-secret
+
+rails_app_env_secrets_test:
+  SECRET_KEY_BASE: test-secret
 
 #############################################################
 ##### Application Symlink

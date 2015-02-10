@@ -18,3 +18,9 @@
 {% for (key, value) in rails_app_env_secrets.iteritems() %}
 {{ key }}: {{ value }}
 {% endfor %}
+
+{% if rails_app_environment['RAILS_ENV'] != 'production' %}
+{% for (key, value) in rails_app_env_secrets_test.iteritems() %}
+{{ key }}: {{ value }}
+{% endfor %}
+{% endif %}
