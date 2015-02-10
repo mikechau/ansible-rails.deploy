@@ -43,3 +43,46 @@
   - check if application is up
   - allow traffic to application
   - wait for healthcheck to be up
+
+---
+
+# SETUP
+
+# Phase Preliminary
+
+_rvm_passenger_stop.yml
+  => set_fact register all instances
+
+_purge.yml (first)
+
+# Phase Setup
+
+_system.yml (first)
+
+- create app dirs
+- create symlinks (first)
+
+# Phase Build (first)
+
+_git.yml
+_copy_cmd.yml
+_rvm_bundle.yml
+_config.yml
+_rvm_rake_db.yml
+_rvm_rake_precompile.yml
+
+# Phase Release
+
+_release_initial_version (first)
+- set increment new release (f)
+- set new release path (f)
+- copy build to release (f)
+
+# Phase Deploy
+_current_set
+_binstubs
+_rvm_passenger_start
+_port_start_listening
+_haproxy_attach
+_ping_server
+_haproxy_healthcheck_up

@@ -1,0 +1,3 @@
+---
+- name: copy build to release
+  shell: "rsync -a {{ rails_app_path }}/ {{ new_release_path }} --exclude={{ rails_app_release_exclusions }}"

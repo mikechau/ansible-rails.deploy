@@ -1,0 +1,11 @@
+---
+- include: _create_extermal_app_symlink.yml
+  when: rails_app_symlink_to
+
+- include: _rvm_bundle_install.yml
+
+- include: _build_configs.yml
+
+- include: _rvm_rake_db_setup.yml
+
+- include: _create_git_hooks.yml

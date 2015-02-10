@@ -43,6 +43,7 @@ events {
 
 http {
     server_tokens off;
+    passenger_show_version_in_header off;
 
     log_format debug '[$time_local] $msec  "$request" $status conn=$connection sent=$bytes_sent body_sent=$body_bytes_sent';
     include '<%= PhusionPassenger.resources_dir %>/mime.types';

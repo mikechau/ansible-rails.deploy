@@ -1,9 +1,0 @@
----
-- name: check if haproxyctl is installed
-  stat: >
-    path=/etc/init.d/haproxyctl
-  register: haproxyctl
-
-- name: set haproxyctl_is_installed
-  set_fact:
-    haproxyctl_is_installed: "{{ haproxyctl.stat.exists }}"

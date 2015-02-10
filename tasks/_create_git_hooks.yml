@@ -1,0 +1,8 @@
+---
+- name: generate git hooks
+  template: >
+    src="{{ item.template }}"
+    dest="{{ rails_app_path }}/.git/hooks/{{ item.name }}"
+    mode=0755
+  with_items: rails_app_git_hooks
+  when: rails_app_create_git_hooks

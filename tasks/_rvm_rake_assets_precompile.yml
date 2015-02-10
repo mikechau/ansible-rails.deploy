@@ -4,4 +4,3 @@
   args:
     chdir: "{{ rails_app_path }}"
   environment: rails_app_environment
-  when: rails_app_strategy == 'deploy'

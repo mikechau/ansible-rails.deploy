@@ -1,5 +1,0 @@
----
-- name: remove old releases
-  shell: "ls -vd */ | cut -f1 -d'/' | grep -E '^[0-9]+' | tail -n +{{ rails_app_release_count }}"
-  args:
-    chdir: "{{ rails_app_releases_path }}"

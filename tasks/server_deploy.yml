@@ -1,0 +1,71 @@
+---
+# PRELIMINARY
+
+- include: _haproxyctl_statuscheck_up.yml
+  when: rails_app_run == 'first' and rails_app_haproxyctl
+
+- include: _haproxyctl_detach.yml
+  when: rails_app_haproxyctl
+
+- include: _rvm_passenger_standalone_stop.yml
+  when: rails_app_run == 'first' and rails_app_server == 'passenger_standalone' and rails_app_rvm
+
+- include: _port_stop_listening.yml
+
+# SETUP
+
+- include: _create_app_directories.yml
+
+- include: _create_app_symlinks.yml
+
+# BUILD
+
+- include: _git.yml
+  when: rails_app_run == 'first'
+
+- include: _build_cmd_binstubs.yml
+  when: rails_app_run == 'first'
+
+- include: _rvm_bundle_install_deploy.yml
+  when: rails_app_run == 'first' and rails_app_rvm
+
+- include: _build_configs.yml
+  when: rails_app_run == 'first'
+
+- include: _rvm_rake_db_migrate.yml
+  when: rails_app_run == 'first' and rails_app_rvm
+
+- include: _rvm_rake_assets_precompile.yml
+  when: rails_app_run == 'first' and rails_app_rvm
+
+# RELEASE
+
+- include: _release_set_last_version.yml
+  when: rails_app_run == 'first'
+
+- include: _release_set_new_release_path.yml
+  when: rails_app_run == 'first'
+
+- include: _release_save_build.yml
+  when: rails_app_run == 'first'
+
+# DEPLOY
+
+- include: _deploy_current_app.yml
+
+- include: _deploy_binstubs.yml
+
+- include: _rvm_passenger_standalone_start.yml
+  when: rails_app_server == 'passenger_standalone' and rails_app_rvm
+
+- include: _port_start_listening.yml
+
+- include: _haproxyctl_attach.yml
+  when: rails_app_haproxyctl
+
+- include: _ping_app.yml
+
+- include: _haproxyctl_healthcheck_up.yml
+
+- include: _deploy_complete.yml
+  when: rails_app_run == 'last'

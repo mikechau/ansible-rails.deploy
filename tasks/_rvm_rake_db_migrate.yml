@@ -1,0 +1,14 @@
+---
+- name: check for migrations
+  stat: >
+    path="{{ rails_app_path }}/db/migrate"
+  register: migrations
+  run_once: true
+  environment: rails_app_environment
+
+- name: run database migrations
+  shell: bash -lc 'bundle exec rake db:migrate'
+  args:
+    chdir: "{{ rails_app_path }}"
+  run_once: true
+  environment: rails_app_environment

@@ -5,4 +5,4 @@
   register: application_response
   until: application_response.status == 200
   delay: 10
-  retries: 15
+  retries: 25

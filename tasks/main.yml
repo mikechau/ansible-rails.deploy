@@ -1,20 +1,3 @@
 ---
-- include: _haproxyctl_check.yml
-  when: rails_app_run == 'first' and rails_app_haproxy
 
-- include: phase_preliminary.yml
-
-- include: phase_setup.yml
-
-- include: phase_build.yml
-  when: rails_app_strategy != 'rollback' and rails_app_run == 'first'
-
-- include: phase_release.yml
-
-- include: phase_deploy.yml
-
-- include: phase_cleanup.yml
-  when: rails_app_run == 'last'
-
-- include: phase_complete.yml
-  when: rails_app_run == 'last'
+- include: "platform_{{ rails_app_platform }}.yml"

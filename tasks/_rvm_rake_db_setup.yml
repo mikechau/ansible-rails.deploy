@@ -1,0 +1,23 @@
+---
+- name: rake db:create
+  shell: bash -lc 'bundle exec rake db:create'
+  args:
+    chdir: "{{ rails_app_path }}"
+  register: rake_db_create
+  run_once: true
+  environment: rails_app_environment
+
+- name: check schema.rb
+  stat: >
+    path="{{ rails_app_path }}/db/schema.rb"
+  register: schema
+  run_once: true
+  environment: rails_app_environment
+
+- name: load database schema
+  shell: bash -lc 'bundle exec rake db:schema:load'
+  args:
+    chdir: "{{ rails_app_path }}"
+  run_once: true
+  when: schema is defined and schema.stat.exists
+  environment: rails_app_environment

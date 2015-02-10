@@ -1,0 +1,8 @@
+---
+- name: set increment new release
+  set_fact:
+    new_release: "{{ (rails_app_rollback_release) or (last_release | int + 1) }}"
+
+- name: set new release path
+  set_fact:
+    new_release_path: "{{ rails_app_releases_path }}/{{ new_release }}"

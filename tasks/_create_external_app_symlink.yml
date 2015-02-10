@@ -1,0 +1,14 @@
+---
+- name: create base symlink folder
+  file: >
+    state=directory
+    path="{{ rails_app_symlink_base_path }}"
+  sudo: yes
+
+- name: create symlink to application
+  file: >
+    state=link
+    src="{{ rails_app_symlink_src }}"
+    dest="{{ rails_app_symlink_dest }}"
+    force=yes
+  sudo: yes

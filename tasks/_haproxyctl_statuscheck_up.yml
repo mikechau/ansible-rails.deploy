@@ -22,5 +22,5 @@
 
 - name: fail if servers are not ready
   fail: >
-    msg="Cannot continue deploy process, failed haproxy stat check."
+    msg="Cannot continue deploy process, failed haproxy stat check. Not enough application servers, with the status of 'UP' to continue deployment."
   when: not haproxy_status.ready

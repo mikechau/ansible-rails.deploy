@@ -4,14 +4,13 @@
     path="{{ rails_app_pids_path }}/{{ item.id }}.pid"
   with_items: rails_app_all_instances
   register: passenger_instances
-  when: (rails_app_run == 'first' and rails_app_strategy == 'setup') or (item.id == rails_app_id and rails_app_strategy != 'setup')
 
 - name: stop passenger processes (w/ rvm)
   command: "bash -lc 'bundle exec passenger stop -p {{ item.item.port }} --pid-file {{ rails_app_pids_path }}/{{ item.item.id }}.pid'"
   args:
     chdir: "{{ rails_app_current_path }}"
   with_items: passenger_instances.results
-  when: (rails_app_run == 'first' and rails_app_strategy == 'setup' and item.stat is defined and item.stat.exists) or (item.stat is defined and item.stat.exists and rails_app_strategy != 'setup' and item.item is defined and item.item.id == rails_app_id)
+  when: item.stat is defined and item.stat.exists
 
 - name: wait for passenger instances to stop...
   wait_for: >
@@ -20,4 +19,4 @@
     delay=5
     timeout=720
   with_items: passenger_instances.results
-  when: (rails_app_run == 'first' and rail_app_strategy == 'setup' and item.stat is defined and item.stat.exists) or (item.item is defined and item.item.id == rails_app_id and item.stat is defined and item.stat.exists)
+  when: item.stat is defined and item.stat.exists

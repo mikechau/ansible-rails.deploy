@@ -1,0 +1,6 @@
+---
+- name: create symlink to application folder
+  file: >
+    state=link
+    src="{{ rails_app_base_path }}"
+    dest="{{ rails_app_base_path_symlink }}"

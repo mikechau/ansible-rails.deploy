@@ -35,3 +35,53 @@
   - check if application is up
   - allow traffic to application
   - wait for healthcheck to be up
+
+---
+
+# DEPLOY
+
+# Phase Preliminary
+
+## Check if we can deploy by checking haproxy status
+_haproxy_statuscheck_up
+  requirements:
+    - first
+
+## Detach instance from haproxy
+_haproxy_detach
+  requirements:
+    - rails_app_haproxy
+    - haproxyctl_is_installed
+
+_rvm_passenger_stop.yml
+  => set_fact register single instance
+
+_port_stop_listening.yml
+
+# Phase setup
+- create app dirs
+
+# Phase Build (first)
+
+_git.yml
+_copy_cmd.yml
+_rvm_bundle.yml
+_config.yml
+_rvm_rake_db.yml
+_rvm_rake_precompile.yml
+
+# Phase Release
+
+_release_last_version (first)
+- set increment new release (f)
+- set new release path (f)
+- copy build to release (f)
+
+# Phase Deploy
+_current_set
+_binstubs
+_rvm_passenger_start
+_port_start_listening
+_haproxy_attach
+_ping_server
+_haproxy_healthcheck_up

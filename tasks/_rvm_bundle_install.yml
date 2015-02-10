@@ -1,0 +1,5 @@
+---
+- name: bundle install (all)
+  shell: bash -lc 'bundle install'
+  args:
+    chdir: "{{ rails_app_path }}"

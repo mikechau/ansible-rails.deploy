@@ -1,0 +1,9 @@
+---
+- name: clean up /tmp bundle folders
+  command: rm -rf /tmp/bundler*
+
+- name: bundle install (deployment w/ rvm)
+  shell: bash -lc 'bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment'
+  args:
+    chdir: "{{ rails_app_path }}"
+  environment: rails_app_environment

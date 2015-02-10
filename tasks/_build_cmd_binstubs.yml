@@ -1,0 +1,7 @@
+---
+- name: copy cmd binstubs
+  copy: >
+    src="{{ item.src }}"
+    dest="{{ rails_app_path }}/cmd/{{ item.dest }}"
+    mode="u=rwx,g=rx,o=rx"
+  with_items: rails_app_build_cmd_binstubs

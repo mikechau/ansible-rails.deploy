@@ -1,0 +1,8 @@
+---
+- name: create application directories
+  file: >
+    state=directory
+    path="{{ rails_app_base_path }}/{{ item.dir }}"
+  with_items: rails_app_sub_dirs
+  when: item.src is not defined
+

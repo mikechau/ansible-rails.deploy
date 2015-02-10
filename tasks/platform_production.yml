@@ -1,0 +1,2 @@
+---
+- include: "{{ rails_app_type }}_{{ rails_app_strategy }}.yml"
